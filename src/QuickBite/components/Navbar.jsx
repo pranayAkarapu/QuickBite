@@ -10,7 +10,10 @@ const Navbar = () => {
   return (
     <section className='navbarsection'>
         <div className='companytitle'>
-            <h1>QuickBite</h1>
+          <Link to="/" className='link'>
+          <h1>QuickBite</h1>
+          </Link>
+            
         </div>
         {/*<div className="searchbar">
             <input type="text" placeholder='Search...'/>

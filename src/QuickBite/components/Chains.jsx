@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
 import { API_URL } from '../api'
-import {MagnifyingGlass} from "react-loader-spinner"
 import { Link } from 'react-router-dom'
 
 const Chains = () => {
@@ -28,16 +27,6 @@ const Chains = () => {
         <div className='loaderSection'>
             {loading && <div className='loader'>
                 <p>Your 🍨 is loading...</p>
-                <MagnifyingGlass
-                visible={true}
-                height="80"
-                width="80"
-                ariaLabel="magnifying-glass-loading"
-                wrapperStyle={{}}
-                wrapperClass="magnifying-glass-wrapper"
-                glassColor="#c0efff"
-                color="#e15b64"
-                />
             </div>}
         </div>
         <h2 className='header'>Top restaurant chains in Hyderabad</h2>

@@ -149,7 +149,7 @@ html, body {
   position: relative;
   padding: 0 4vw;
   margin: 20px 0;
-  margin-top: 100px;
+  margin-top: 80px;
 }
 
 .head {
@@ -243,6 +243,7 @@ html, body {
   .item-wrapper {
     padding: 0 2vw;
     margin-top: 80px;
+    margin-bottom: 0px;
   }
 
   .gallery-image {
@@ -306,6 +307,7 @@ html, body {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
 }
+
 
 .chainsection::-webkit-scrollbar {
   height: 8px;
@@ -420,6 +422,7 @@ html, body {
 
   .header {
     font-size: 1.1rem;
+    margin-top: 0px;
   }
 }
 

@@ -13,13 +13,14 @@ body{
 /* Prevent horizontal scroll */
 body {
   overflow-x: hidden;
+  max-width: 100vw;
 }
 
 
 /*-----------NavBar-------------*/
 
 
-.navbarsection {
+/*.navbarsection {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -28,13 +29,39 @@ body {
   color: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
-  position: relative;
   z-index: 10;
+  position: fixed ;
+  width: 100%;
+  top: 0;
+  left: 0;
+}*/
+
+.navbarsection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  height: 60px;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  z-index: 999; /* ⬅️ ensure it's on top */
   position: fixed;
   width: 100%;
   top: 0;
   left: 0;
 }
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+.item-wrapper, .container, main {
+  margin-top: 60px; /* ⬅️ avoid overlap with fixed navbar */
+}
+
 
 
 .navbarsection .companytitle h1 {
@@ -51,7 +78,7 @@ body {
   cursor: pointer;
   color: white;
   text-decoration: none;
-  margin-left: 150px;
+  margin-left: 130px;
 }
 
 .navbarsection .cart span{
@@ -215,7 +242,7 @@ body {
 @media screen and (max-width: 600px) {
   .item-wrapper {
     padding: 0 2vw;
-    margin-top: 100px;
+    margin-top: 80px;
   }
 
   .gallery-image {
@@ -256,6 +283,7 @@ body {
   padding: 24px 80px;
   background-color: #fff;
   overflow-x: hidden;
+  margin-top: 0px;
 }
 
 .header {
@@ -263,6 +291,11 @@ body {
   font-weight: 600;
   margin-bottom: 10px;
 }
+
+.itemsection, .chainsection {
+  min-width: 0;
+}
+
 
 .chainsection {
   display: flex;
@@ -285,7 +318,8 @@ body {
 
 .vendor-card {
   flex: 0 0 auto;
-  width: 200px;
+  width: 80vw;
+  max-width: 200px;
   background-color: #f9f9f9;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -360,8 +394,10 @@ body {
 
 @media (max-width: 600px) {
   .container {
-    padding: 16px 16px; 
+    padding: 16px 16px;
+    margin-top: 0px; 
   }
+
   .vendor-card {
     width: 160px;
   }
@@ -405,15 +441,19 @@ body {
 }
 
 .searchbar {
-  display: flex;
+  /*display: flex;
   justify-content: flex-start;
   margin-bottom: 1rem;
-  width: 600px;
+  width: 600px;*/
+  width: 40%;
+  padding: 0 1rem;
+  flex-direction: column;
+  align-items: center;
 }
 
 .searchbar input {
   width: 60%;
-  max-width: 400px;
+  max-width: 300px;
   padding: 10px 16px;
   font-size: 14px;
   border: 1px solid #ccc;
@@ -663,10 +703,10 @@ body {
 
 .pHeader {
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 600;
   margin: 1rem 0;
-  margin-top: 100px;
+  margin-top: 80px;
 }
 
 .categories {
@@ -807,6 +847,7 @@ body {
 
   .pHeader{
     margin-top: 80px;
+    font-size: 1.3rem;
   }
 
   .categories span {
@@ -920,7 +961,7 @@ body {
 
 .cart-container h1 {
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-bottom: 2rem;
 }
 
@@ -1009,7 +1050,7 @@ body {
 @media (max-width: 480px) {
 
   .cart-container h1{
-    margin-top: 80px;
+    margin-top: 70px;
   }
   .cart-item-info{
     display: flex;

@@ -1,27 +1,33 @@
 import React, {useState, useEffect} from 'react'
-import { API_URL } from '../api'
+import { API_URL, API } from '../api'
 import { useParams } from 'react-router-dom';
 import Navbar from './Navbar';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../Redux/cartSlice';
+import {useQuery} from "@tanstack/react-query"
 
 const ProductMenu = () => {
-    const [restaurantData, setRestaurantData] = useState({restaurantName:"", products:[]});
+    
     const [activeFilter, setActiveFilter] = useState("All");
     const {firmId} = useParams();
-    const HandleProducts = async()=>{
+
+    const fetchProducts = async()=>{
         try {
-            const response = await fetch(`${API_URL}/product/${firmId}/products`);
-            const data = await response.json();
-            setRestaurantData(data);
+            const response = await API_URL.get(`/product/${firmId}/products`);
+            return response.data;
         } catch (error) {
+            alert("Product failed to fetch");
             console.error("Product failed to fetch", error);
         }
     }
 
-    useEffect(()=>{
-        HandleProducts();
-    },[]);
+    const {data: restaurantData={restaurantName:"", products:[]}, isPending, isError, error} = useQuery({
+        queryKey:["products", firmId],
+        queryFn: fetchProducts,
+        staleTime: 5 * 60 * 1000, // 5 minutes
+        cacheTime: 30 * 60 * 1000, // 30 minutes
+    })
+
 
     const handleFilterChange = (filter)=>{
         setActiveFilter(filter);
@@ -41,7 +47,7 @@ const ProductMenu = () => {
             id: product._id,
             productName: product.productName,
             price: product.price,
-            image: `${API_URL}/uploads/${product.image}`,
+            image: `${API}/uploads/${product.image}`,
         };
         dispatch(addToCart(cartItem));
     };
@@ -49,6 +55,8 @@ const ProductMenu = () => {
   return (
     <div>
         <Navbar/>
+        {isPending && <p>Loading...</p>}
+        {isError && <p>Error: {error.message}</p>}
         <h1 className='pHeader'>{restaurantData.restaurantName}</h1>
         <section className='productsection'>
             <div className='categories'>
@@ -70,7 +78,7 @@ const ProductMenu = () => {
                     </div>
                     
                     <div className='product-image-container'>
-                        <img src={`${API_URL}/uploads/${item.image}`} alt={item.productName} className='product-image' />
+                        <img src={`${API}/uploads/${item.image}`} alt={item.productName} className='product-image' />
                         <div className='add-button'>
                             <button onClick={()=>handleAddToCart(item)}>ADD</button>
                         </div>

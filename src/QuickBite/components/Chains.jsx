@@ -1,9 +1,27 @@
 import React, {useState, useEffect, useRef} from 'react'
-import { API_URL } from '../api'
+import { API_URL, API } from '../api'
 import { Link } from 'react-router-dom'
+import {useQuery} from "@tanstack/react-query"
 
 const Chains = () => {
-    const [vendorData, setvendorData] = useState([]);
+
+    const fetchdVendors = async()=>{
+        try {
+            const response = await API_URL.get("/vendor/get-vendors");
+            return response.data;
+        } catch (error) {
+            alert("Failed to fetch data");
+            console.error("failed to fetch data", error);
+        }
+    }
+    const {data: vendorData=[], isPending, isError, error} = useQuery({
+        queryKey:["vendors"],
+        queryFn: fetchdVendors,
+        scaleTime: 5 * 60 * 1000, // 5 minutes
+        cacheTime: 30 * 60 * 1000, // 30 minutes
+    })
+    if(isError) return <p>Error: {error.message}</p>
+    /*const [vendorData, setvendorData] = useState([]);
     const [loading, setLoading] = useState(true)
 
     const handleVendors = async()=>{
@@ -20,12 +38,12 @@ const Chains = () => {
     }
     useEffect(() => {
         handleVendors();
-    },[]);
+    },[]);*/
 
   return (
     <div className='container'>
         <div className='loaderSection'>
-            {loading && <div className='loader'>
+            {isPending && <div className='loader'>
                 <p>Your 🍨 is loading...</p>
             </div>}
         </div>
@@ -39,7 +57,7 @@ const Chains = () => {
                                 <Link to={`/products/${item._id}`} key={item._id} className='link'>
                                     <React.Fragment>
                                         <div className='firmImage'>
-                                            <img src={`${API_URL}/uploads/${item.image}`} alt={item.firmName} className='image' />
+                                            <img src={`${API}/uploads/${item.image}`} alt={item.firmName} className='image' />
                                             <p className='firm-offer'>{item.offer}on all items</p>
                                         </div>                            
                                         <h2 className='firmName'>{item.firmName}</h2>

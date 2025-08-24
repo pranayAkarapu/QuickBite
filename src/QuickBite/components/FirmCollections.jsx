@@ -1,26 +1,29 @@
 import React, {useState, useEffect} from 'react'
-import { API_URL } from '../api'
+import { API, API_URL } from '../api'
 import { Link } from 'react-router-dom';
+import {useQuery} from "@tanstack/react-query"
 
 const FirmCollections = () => {
-    const [firmData, setfirmData] = useState([]);
+    //const [firmData, setfirmData] = useState([]);
     const [selectRegion, setSelectRegion] = useState("All");
     const [searchTerm, setSearchTerm] = useState("")
 
-    const firmDataHandler = async()=>{
+    const fetchFirms = async()=>{
         try {
-            const response = await fetch(`${API_URL}/vendor/get-vendors`);
-            const data = await response.json();
-            setfirmData(data.vendors);
+            const response = await API_URL.get("/vendor/get-vendors");
+            return response.data.vendors;
         } catch (error) {
             console.error("failed to fetch", error);
         }
     }
 
-
-    useEffect(()=>{
-        firmDataHandler();
-    },[]);
+    const {data: firmData=[], isPending, isError, error} = useQuery({
+        queryKey:["firms"],
+        queryFn: fetchFirms,
+        staleTime: 5 * 60 * 1000, // 5 minutes
+        cacheTime: 30 * 60 * 1000, // 30 minutes
+    })
+    if(isError) return <p>Error: {error.message}</p>
 
     const filterHandler = (region)=>{
         setSelectRegion(region);
@@ -66,7 +69,7 @@ const FirmCollections = () => {
                                     <Link to={`/products/${item._id}`} key={index} className='link'>
                                         <React.Fragment>
                                             <div className='firm-image-container'>
-                                                <img src={`${API_URL}/uploads/${item.image}`} alt={item.firmName} className='firm-image' />
+                                                <img src={`${API}/uploads/${item.image}`} alt={item.firmName} className='firm-image' />
                                                 <p className='offer'>{item.offer} on all items</p>
                                             </div>
                                             <h2 className='firm-name'>{item.firmName}</h2>

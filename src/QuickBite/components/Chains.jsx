@@ -49,7 +49,7 @@ const Chains = () => {
         </div>
         <h2 className='header'>Top restaurant chains in Hyderabad</h2>
         <section className='chainsection'>
-            {vendorData.vendors && vendorData.vendors.slice(0,12).map((vendor)=>{
+            {vendorData.vendors && vendorData.vendors.sort(() => Math.random() - 0.5).slice(0,12).map((vendor)=>{
                 return(
                     <div className='vendor-card' key={vendor._id}>
                         {vendor.firm.map((item)=>{
